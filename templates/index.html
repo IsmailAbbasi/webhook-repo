@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GitHub Webhook Viewer</title>
+    <script>
+        function loadEvents() {
+            fetch('/api/events')
+                .then(response => response.json())
+                .then(data => {
+                    const eventsDiv = document.getElementById('events');
+                    eventsDiv.innerHTML = '';
+                    data.forEach(e => {
+                        let msg = '';
+                        if (e.event_type === "push")
+                            msg = `${e.author} pushed to ${e.to_branch} on ${e.timestamp}`;
+                        else if (e.event_type === "pull_request")
+                            msg = `${e.author} submitted a pull request from ${e.from_branch} to ${e.to_branch} on ${e.timestamp}`;
+                        else if (e.event_type === "merge")
+                            msg = `${e.author} merged branch ${e.from_branch} to ${e.to_branch} on ${e.timestamp}`;
+                        eventsDiv.innerHTML += `<p>${msg}</p>`;
+                    });
+                });
+        }
+
+        setInterval(loadEvents, 15000);
+        window.onload = loadEvents;
+    </script>
+</head>
+<body>
+    <h2>GitHub Event Stream</h2>
+    <div id="events"></div>
+</body>
+</html>

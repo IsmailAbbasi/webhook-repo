@@ -1,8 +1,8 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from pymongo import MongoClient
 from datetime import datetime
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', template_folder='templates')
 
 # ✅ 1. Connect to MongoDB (replace with your actual URI)
 client = MongoClient("mongodb+srv://ismailabbasi118:Aa9J5z8h41W6@github-webhooks.v5e2xl7.mongodb.net/?retryWrites=true&w=majority&appName=github-webhooks")
@@ -11,7 +11,8 @@ collection = db.events
 
 @app.route('/')
 def home():
-    return "✅ Flask is up"
+    return render_template('index.html')  # ⬅️ Renders your UI!
+
 
 # ✅ 2. Webhook endpoint to receive events from GitHub
 @app.route('/webhook', methods=['POST'])

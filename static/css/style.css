@@ -76,3 +76,12 @@ code {
         padding: 12px 16px;
     }
 }
+.no-events, .error {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: #888;
+}
+.error {
+    color: red;
+}
